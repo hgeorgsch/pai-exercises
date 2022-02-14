@@ -27,8 +27,7 @@ class State:
         (x0,y0) = self.position
         (x,y) = (2*x0,2*y0)
         ml = []
-        print( "Finding moves for", (x0,y0), (x,y) )
-        print( str(self.game.maze) )
+        print( "Finding moves for", (x0,y0), (x,y), file=sys.stderr )
         if y0 < 2 and self.game.maze[x,y+1] == ".":
            ml.append( "RIGHT" )
         if y0 > 0 and self.game.maze[x,y-1] == ".":
@@ -76,34 +75,38 @@ class Player:
            return None
        if key not in self.untried:
            self.untried[key] = state.moves()
-           print( "Moves in state", key, self.untried[key] )
+           print( "Moves in state", key, self.untried[key], file=sys.stderr )
        if self.state != None:
            if key not in self.unbacktracked:
                self.unbacktracked[key] = []
            self.unbacktracked[key].append( (self.state, undo[self.action]) )
+           print( "Unbacktracked", key, self.unbacktracked[key] )
        if self.untried[key] == []:
            btl = self.unbacktracked.get( key ) 
            if btl == [] or btl == None: return None
-           (action,s) = self.unbacktracked.pop( ) 
+           (s,action) = self.unbacktracked[key].pop( ) 
            self.state = None
            self.action = None
-           print( "Backtracking", action, s )
+           print( "Backtracking", action, s, file=sys.stderr )
        else:
            action = self.untried[key].pop()
+           self.state = state
+           self.action = action
            print( "Forward", action )
+       print( "DFS returning", action, self.action, self.state, file=sys.stderr )
        return action
 
 if __name__ == "__main__":
     game = Game( s )
     state = State( game )
-    print( "Starting in state", s )
+    print( str(game.maze) )
     complete = False
     win = False
     player = Player()
     while not complete:
         action = player.dfs( state )
         state.act( action ) 
-        print( "Position", state.position ) 
+        print( "Position", state.position, file=sys.stderr ) 
         if action == None:
             complete = True
     if state.isGoal():
