@@ -10,4 +10,4 @@ Feel free to suggest improvements.
 
 ## Games
 
-+ [TicTacToe]()
++ [TicTacToe](https://github.com/hgeorgsch/pai-exercises/tree/main/TicTacToe)
