@@ -38,6 +38,7 @@ class State:
     def __init__(self,g):
         self.game = g
         self.position = (0,0)
+        self.movecount = 0
     def key(self):
         """
         Return a compact and unique representation of the current state.
@@ -66,12 +67,16 @@ class State:
         if x0 > 0 and self.game.maze[x-1,y] == ".":
            ml.append( "UP" )
         return ml
+    def getCount(self):
+        "Return the number of moves made in the game."
+        return self.movecount
     def act(self,move):
         """
         Execute the given move (action), thus changing the state.
         """
         ml = self.moves()
         (y,x) = self.position
+        self.movecount += 1
         if move not in ml:
             print( "Impossible move:", move )
             return False
