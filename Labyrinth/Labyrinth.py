@@ -1,6 +1,7 @@
 
 import numpy as np
 import sys
+import random
 
 s = " # . " + \
     ".*.*." + \
@@ -96,6 +97,13 @@ undo = {
         "RIGHT": "LEFT",
         "LEFT": "RIGHT"
         }
+
+class RandomPlayer:
+    def __init__(self):
+        pass
+    def move(self,mlist):
+        "Make a random move from a given list of options."
+        return random.choice(mlist)
 
 class Player:
    def __init__(self):
