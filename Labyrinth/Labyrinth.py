@@ -38,10 +38,21 @@ class State:
     def __init__(self,g):
         self.game = g
         self.position = (0,0)
-    def key(self): return self.position
+    def key(self):
+        """
+        Return a compact and unique representation of the current state.
+        This key can be used to index a dict, if required
+        """
+        return self.position
     def isGoal(self):
+        """
+        Return true if the state is the goal (win condition) of the game.
+        """
         return self.position == (2,2)
     def moves(self):
+        """
+        Return a list of valid moves in the current state.
+        """
         (x0,y0) = self.position
         (x,y) = (2*x0,2*y0)
         ml = []
@@ -55,9 +66,10 @@ class State:
         if x0 > 0 and self.game.maze[x-1,y] == ".":
            ml.append( "UP" )
         return ml
-    def sense(self):
-        return self.moves()
     def act(self,move):
+        """
+        Execute the given move (action), thus changing the state.
+        """
         ml = self.moves()
         (y,x) = self.position
         if move not in ml:
