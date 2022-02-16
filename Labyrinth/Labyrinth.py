@@ -103,6 +103,8 @@ class State:
         ml = self.moves()
         (y,x) = self.position
         self.movecount += 1
+        if self.isGoal():
+            return True
         if move not in ml:
             print( "Impossible move:", move, file=sys.stderr )
             return False
@@ -111,8 +113,6 @@ class State:
         elif move == "RIGHT": x += 1
         elif move == "LEFT": x -= 1
         self.position = (y,x)
-        if self.isGoal():
-            return True
         return None
 
 

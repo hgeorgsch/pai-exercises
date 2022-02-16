@@ -21,7 +21,8 @@ class DFSPlayer:
            if self.debug: print( "GOAL" )
            return None
        if key not in self.untried:
-           self.untried[key] = state.moves()
+           self.untried[key] = [ x for x in state.moves()
+                                   if undo[x] != self.action ]
            if self.debug:
              print( "Moves in state", key, self.untried[key], file=sys.stderr )
        if self.state != None:
