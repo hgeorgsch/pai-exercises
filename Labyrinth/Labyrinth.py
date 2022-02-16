@@ -34,18 +34,29 @@ def toarray(s):
     ss = [ s[0:5], s[5:10], s[10:15], s[15:20], s[20:25] ]
     return np.array( [ list(s0) for s0 in ss ] )
 
+def tostring(a):
+    b = list(a)
+    d = [ "".join(list(x)) for x in b ]
+    return "\n".join(d)
+
 class Game:
     def __init__(self,a):
         self.maze = toarray(a)
+    def tostring(self,key):
+        maze = self.maze.copy()
+        (x,y) = key
+        maze[2*x,2*y] = "X"
+        return tostring(maze)
     def play(self,player,verbose=False):
        state = State( self )
        complete = False
        win = False
        while not complete:
            action = player.move( state )
-           state.act( action ) 
            if verbose:
-              print( "Position", state.position, file=sys.stderr ) 
+               print( "Move #", state.getCount() )
+               print( self.tostring( state.key() ) )
+           state.act( action ) 
            if action == None:
                complete = True
        return (state.isGoal(),state.getCount())

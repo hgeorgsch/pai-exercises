@@ -52,7 +52,7 @@ if __name__ == "__main__":
     for s in mazelist:
        game = Game( s )
        print( str(game.maze) )
-       (w,c) = game.play( DFSPlayer() )
+       (w,c) = game.play( DFSPlayer(), verbose=True )
        if w:
            print( f"Success in {c} moves." )
        else:
