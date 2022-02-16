@@ -10,4 +10,7 @@ Feel free to suggest improvements.
 
 ## Games
 
++ [Labyrinth](https://github.com/hgeorgsch/pai-exercises/tree/main/Labyrinth)
+  allows you to test online DFS.
 + [TicTacToe](https://github.com/hgeorgsch/pai-exercises/tree/main/TicTacToe)
+  allows you to test Minimax search,
