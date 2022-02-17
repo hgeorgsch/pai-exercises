@@ -29,6 +29,10 @@ The most important methods from you are going to be `moves()`
 (as shown in the template) and `getArray()` to get an array
 representation of the current board.
 
+Note that the Player can find out which mark to place by calling 
+`state.toMove()`.  The first player always writes "X" and the second
+player "O".
+
 # Testing the Game
 
 Three scripts have been provided to play the game.
