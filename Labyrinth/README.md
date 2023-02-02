@@ -9,7 +9,7 @@ possible from the current square.
 Implement a class with a method `move(state)` which returns a move
 or `None`.
 
-The argument `state' is a `State` object with the following important 
+The argument `state` is a `State` object with the following important 
 methods:
 
 + `moves()` returns a list of valid moves.
