@@ -6,7 +6,7 @@ possible from the current square.
 
 ## Task
 
-Implement a class with a method `move(state)' which returns a move
+Implement a class with a method `move(state)` which returns a move
 or `None`.
 
 The argument `state' is a `State` object with the following important 
