@@ -2,11 +2,11 @@
 
 import matplotlib.pyplot as plt
 from tqdm import tqdm
-from Agent import Agent
+from NetworkAgent import Agent
 
 import gymnasium as gym
 
-env = gym.make('FrozenLake-v1', desc=None, map_name="4x4", is_slippery=True,render_mode="human")
+env = gym.make('FrozenLake-v1', desc=None, map_name="4x4", is_slippery=True,render_mode="array")
 
 done = False
 observation, info = env.reset()

@@ -33,7 +33,7 @@ class Agent:
 
         self.training_error = []
 
-    def get_action(self, obs: tuple[int, int, bool]) -> int:
+    def get_action(self, obs: int) -> int:
 
         if np.random.random() < self.epsilon:
             return self.env.action_space.sample()
@@ -43,11 +43,11 @@ class Agent:
 
     def update(
         self,
-        obs: tuple[int, int, bool],
+        obs: int,
         action: int,
         reward: float,
         terminated: bool,
-        next_obs: tuple[int, int, bool],
+        next_obs: int,
     ):
 
         future_q_value = (not terminated) * np.max(self.q_values[next_obs])
