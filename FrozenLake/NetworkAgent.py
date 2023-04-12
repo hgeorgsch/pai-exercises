@@ -120,7 +120,8 @@ class Agent:
            states = tf.convert_to_tensor(batch_states, dtype=tf.float32)
            qvalues = self.model.predict(states)
 
-           # We want to calculate the error over the q-values, so we make a copy to use as a target
+           # We want to calculate the error over the q-values,
+           # so we make a copy to use as a target
            qtargets = np.copy(qvalues)
 
            # We then repeat for all utilities of the next states in the batch:
