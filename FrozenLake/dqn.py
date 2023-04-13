@@ -6,6 +6,24 @@ from NetworkAgent import Agent
 
 import gymnasium as gym
 
+
+def evaluate(agent,env,episodes=10,maxsteps=200):
+    t_reward = 0.0
+    for _ in range(episodes):
+        state, _ = env.reset()  
+        ep_reward = 0.0
+        for _ in range(max_steps):
+            action = agent.get_action(env, state) 
+            newstate, reward, terminated, _ = env.step(action) 
+            ep_reward += reward
+            if terminated: break
+
+            state = newstate
+        t_reward += ep_reward
+    return t_reward/episodes
+
+
+
 env = gym.make('FrozenLake-v1', desc=None, map_name="4x4", is_slippery=True,render_mode="array")
 
 done = False
@@ -35,3 +53,7 @@ for episode in range(500):
     print( f"{episode}: {reward}" )
     agent.decay_epsilon()
 
+print( agent.getQtable() )
+
+ev = evaluate(agent,env)
+print( "Score: ", ev )

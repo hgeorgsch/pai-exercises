@@ -90,6 +90,8 @@ class Agent:
 
         self.training_error = []
 
+    def getQtable(self, x=x_data):
+        return self.model.predict(x)
     def get_action(self, obs: int) -> int:
 
         if np.random.random() < self.epsilon:
