@@ -4,6 +4,7 @@ import numpy as np
 import sys
 
 
+
 class Game:
     """
     Some generic features of puzzle games, intended as superclass for
@@ -18,7 +19,7 @@ class Game:
         """
         Return true if the state is the goal (win condition) of the game.
         """
-        if state == None: state = self.state
+        if type(state) == type(None): state = self.state
         return self.conflictcount(state) == 0
     def conflictcount(self,state=None):
         """
@@ -74,7 +75,7 @@ class NPuzzle(Game):
         """
         Return a list of possible next states from the current state.
         """
-        if state == None: state = self.state
+        if type(state) == type(None): state = self.state
         empty = np.where( state == 0 )
         print(empty)
         (x,y) = int(empty[0]), int(empty[1])
@@ -165,11 +166,6 @@ def randomsolver(game,heuristic=None):
         if heuristic: print(heuristic(game.state))
     return(game.state)
 
-def astarsolver(game,heuristic=None):
-    """
-    Use A* to solve a puzzle game.
-    """
-    pass
 
 if __name__ == "__main__":
     # game = EightQueensGame()
