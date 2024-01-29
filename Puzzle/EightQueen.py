@@ -128,7 +128,7 @@ def puzzlecount(state):
     The number of misplaced tiles in N-Puzzle.
     """
     state = state.flatten()
-    misplaced = [ i for i in range(1,state.size) if state[i] != i - 1 ]
+    misplaced = [ i for i in range(1,state.size) if state[i-1] != i ]
     return len(misplaced)
 
 def eightqueenconflict(q1,q2):
@@ -136,10 +136,10 @@ def eightqueenconflict(q1,q2):
     True if two Queens in positions q1 and q2 would attack each other 
     on a chess board.
     """
-    if q1[0] == q2[0]: return False
-    elif q1[1] == q2[1]: return False
-    elif q1[1]-q1[0] == q2[1]-q2[0]: return False
-    else: return True
+    if q1[0] == q2[0]: return True
+    elif q1[1] == q2[1]: return True
+    elif abs(q1[1]-q2[1]) == abs(q1[0]-q2[0]): return True
+    else: return False
 
 def eightqueenheuristic(state):
     """
@@ -168,6 +168,7 @@ def randomsolver(game,heuristic=None):
 
 
 if __name__ == "__main__":
-    # game = EightQueensGame()
-    game = NPuzzle()
-    randomsolver(game,manhattan)
+    game = EightQueensGame()
+    randomsolver(game)
+    # game = NPuzzle()
+    # randomsolver(game,manhattan)
