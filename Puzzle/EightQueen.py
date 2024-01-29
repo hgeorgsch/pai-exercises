@@ -76,8 +76,22 @@ class NPuzzle(Game):
 
     def conflictcount(self,state=None):
         if type(state) == type(None): state = self.state
+        return puzzlecount(state)
+
+def manhattan(state):
+    rows,columns = state.shape
+    goal = np.array(list(range(1,state.size)) + [0])
+    goal.shape = state.shape
+    mdist = 0
+    for x in range(1,state.size):
+      m1 = np.where( state == x )
+      m2 = np.where( goal == x )
+      mdist += int(np.abs(m1[0]-m2[0]))
+      mdist += int(np.abs(m1[1]-m2[1]))
+    return mdist
+def puzzlecount(state):
         state = state.flatten()
-        misplaced = [ i for i in range(1,self.size) if state[i] != i - 1 ]
+        misplaced = [ i for i in range(1,state.size) if state[i] != i - 1 ]
         return len(misplaced)
 
 def eightqueenconflict(q1,q2):
@@ -102,6 +116,7 @@ def randomsolver(game,heuristic=None):
         i = np.random.choice( range( len( moves ) ) )
         game.setState( moves[i] )
         print(game.tostring())
+        if heuristic: print(heuristic(game.state))
     return(game.state)
 
 def astarsolver(game,heuristic=None):
@@ -110,4 +125,4 @@ def astarsolver(game,heuristic=None):
 if __name__ == "__main__":
     # game = EightQueensGame()
     game = NPuzzle()
-    randomsolver(game)
+    randomsolver(game,manhattan)
