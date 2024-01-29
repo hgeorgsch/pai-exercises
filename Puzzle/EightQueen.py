@@ -36,11 +36,6 @@ class EightQueensGame(Game):
                    r.append( s )
         return r
 
-    def conflict(self,q1,q2):
-        if q1[0] == q2[0]: return False
-        elif q1[1] == q2[1]: return False
-        elif q1[1]-q1[0] == q2[1]-q2[0]: return False
-        else: return True
 
     def tostring(self,state=None):
         if state == None: state = self.state
@@ -48,20 +43,32 @@ class EightQueensGame(Game):
 
     def conflictcount(self,state=None):
         if state == None: state = self.state
+        return eightqueenheuristic(state)
+
+def eightqueenconflict(q1,q2):
+        if q1[0] == q2[0]: return False
+        elif q1[1] == q2[1]: return False
+        elif q1[1]-q1[0] == q2[1]-q2[0]: return False
+        else: return True
+
+def eightqueenheuristic(state):
         qpos = lambda state,i: (i,state[i])
         l = [ (i,j) 
               for i in range(boardsize)
               for j in range(i) 
-              if self.conflict(qpos(state,i),qpos(state,j)) ]
+              if eightqueenconflict(qpos(state,i),qpos(state,j)) ]
         return len(l)
 
-
-
-if __name__ == "__main__":
-    game = EightQueensGame()
+def randomsolver(game,heuristic=None):
     print(game.tostring())
     while not game.isGoal():
         moves = game.nextstates()
         i = np.random.choice( range( len( moves ) ) )
         game.setState( moves[i] )
         print(game.tostring())
+    return(game.state)
+
+
+if __name__ == "__main__":
+    game = EightQueensGame()
+    randomsolver(game)
