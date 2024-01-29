@@ -7,47 +7,61 @@ boardsize = 8
 defaultstate = [ 0 for _ in range(boardsize) ]
 randomstate = [ np.random.randint(boardsize) for _ in range(boardsize) ]
 
-def nextstates(state):
-    """
-    Return a list of possible next states from the current state.
-    """
-    r = []
-    for x in range(boardsize):
-       for y in range(boardsize):
-           if y != state[x]:
-               s = state.copy()
-               s[x] = y
-               r.append( s )
-    return r
+class Game:
+    def setState(self,state):
+        self.state = state
+    def isGoal(self,state=None):
+        """
+        Return true if the state is the goal (win condition) of the game.
+        """
+        if state == None: state = self.state
+        return self.conflictcount(state) == 0
+    def conflictcount(self,state=None):
+        return 0
 
-def conflict(q1,q2):
-    if q1[0] == q2[0]: return False
-    elif q1[1] == q2[1]: return False
-    elif q1[1]-q1[0] == q2[1]-q2[0]: return False
-    else: return True
+class EightQueensGame(Game):
+    def __init__(self):
+        self.state = randomstate
+    def nextstates(self,state=None):
+        """
+        Return a list of possible next states from the current state.
+        """
+        if state == None: state = self.state
+        r = []
+        for x in range(boardsize):
+           for y in range(boardsize):
+               if y != state[x]:
+                   s = state.copy()
+                   s[x] = y
+                   r.append( s )
+        return r
 
-def qpos(s,i): return (i,s[i])
+    def conflict(self,q1,q2):
+        if q1[0] == q2[0]: return False
+        elif q1[1] == q2[1]: return False
+        elif q1[1]-q1[0] == q2[1]-q2[0]: return False
+        else: return True
 
-def tostring(s): return "".join( [ str(x) for x in s ] )
+    def tostring(self,state=None):
+        if state == None: state = self.state
+        return "".join( [ str(x) for x in state ] )
 
-def conflictcount(s):
-    l = [ (i,j) 
-          for i in range(boardsize)
-          for j in range(i) 
-          if conflict(qpos(s,i),qpos(s,j)) ]
-    return len(l)
+    def conflictcount(self,state=None):
+        if state == None: state = self.state
+        qpos = lambda state,i: (i,state[i])
+        l = [ (i,j) 
+              for i in range(boardsize)
+              for j in range(i) 
+              if self.conflict(qpos(state,i),qpos(state,j)) ]
+        return len(l)
 
-def isGoal(s):
-    """
-    Return true if the state is the goal (win condition) of the game.
-    """
-    return conflictcount(s) == 0
 
 
 if __name__ == "__main__":
-    state = randomstate
-    print(tostring(state))
-    while not isGoal(state):
-        i = np.random.choice( range( len( nextstates( state ) ) ) )
-        state = nextstates( state )[i]
-        print(state)
+    game = EightQueensGame()
+    print(game.tostring())
+    while not game.isGoal():
+        moves = game.nextstates()
+        i = np.random.choice( range( len( moves ) ) )
+        game.setState( moves[i] )
+        print(game.tostring())
