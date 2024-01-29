@@ -44,8 +44,8 @@ class EightQueensGame(Game):
         return eightqueenheuristic(state)
 
 class NPuzzle(Game):
-    def __init__(self,rows,columns):
-        size = rows*columns
+    def __init__(self,rows=3,columns=3):
+        self.size = size = rows*columns
         self.state = np.random.permutation(range(size))
         self.state.shape = (rows,columns)
     def nextstates(self,state=None):
@@ -53,23 +53,32 @@ class NPuzzle(Game):
         Return a list of possible next states from the current state.
         """
         if state == None: state = self.state
+        empty = np.where( state == 0 )
+        print(empty)
+        (x,y) = int(empty[0]), int(empty[1])
+        (m,n) = state.shape
+        moves = []
+        if x > 0: moves.append( (x-1,y) )
+        if x < m-1: moves.append( (x+1,y) )
+        if y > 0: moves.append( (x,y-1) )
+        if y < n-1: moves.append( (x,y+1) )
         r = []
-        for x in range(boardsize):
-           for y in range(boardsize):
-               if y != state[x]:
-                   s = state.copy()
-                   s[x] = y
-                   r.append( s )
+        for (x0,y0) in moves:
+            s = state.copy()
+            s[x,y] = s[x0,y0]
+            s[x0,y0] = 0
+            r.append(s)
         return r
-
 
     def tostring(self,state=None):
         if state == None: state = self.state
-        return "".join( [ str(x) for x in state ] )
+        return str(state)
 
     def conflictcount(self,state=None):
-        if state == None: state = self.state
-        return eightqueenheuristic(state)
+        if type(state) == type(None): state = self.state
+        state = state.flatten()
+        misplaced = [ i for i in range(1,self.size) if state[i] != i - 1 ]
+        return len(misplaced)
 
 def eightqueenconflict(q1,q2):
         if q1[0] == q2[0]: return False
@@ -99,5 +108,6 @@ def astarsolver(game,heuristic=None):
     pass
 
 if __name__ == "__main__":
-    game = EightQueensGame()
+    # game = EightQueensGame()
+    game = NPuzzle()
     randomsolver(game)
