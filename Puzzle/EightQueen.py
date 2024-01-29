@@ -5,7 +5,14 @@ import sys
 
 
 class Game:
+    """
+    Some generic features of puzzle games, intended as superclass for
+    the N-Puzzle and the Eight Queens Problem.
+    """
     def setState(self,state):
+        """
+        Set the solution state.
+        """
         self.state = state
     def isGoal(self,state=None):
         """
@@ -14,10 +21,16 @@ class Game:
         if state == None: state = self.state
         return self.conflictcount(state) == 0
     def conflictcount(self,state=None):
+        """
+        Return the number of constraints violated.
+        """
         return 0
 
 class EightQueensGame(Game):
     def __init__(self,boardsize=8):
+        """
+        Initialise a game with a random state on the given (square) board size.
+        """
         self.boardsize = boardsize
         self.state = [ np.random.randint(boardsize) for _ in range(boardsize) ]
     def nextstates(self,state=None):
@@ -34,17 +47,26 @@ class EightQueensGame(Game):
                    r.append( s )
         return r
 
-
     def tostring(self,state=None):
+        """
+        Return a string representation of the current state.
+        """
         if state == None: state = self.state
         return "".join( [ str(x) for x in state ] )
 
     def conflictcount(self,state=None):
+        """
+        Return the number of constraints violated, i.e. the number of pairs of queens
+        which attack each other.
+        """
         if state == None: state = self.state
         return eightqueenheuristic(state)
 
 class NPuzzle(Game):
     def __init__(self,rows=3,columns=3):
+        """
+        Initialise a game with a random state on the given rows-x-columns board size.
+        """
         self.size = size = rows*columns
         self.state = np.random.permutation(range(size))
         self.state.shape = (rows,columns)
@@ -71,14 +93,25 @@ class NPuzzle(Game):
         return r
 
     def tostring(self,state=None):
+        """
+        Return a string representation of the current state.
+        """
         if state == None: state = self.state
         return str(state)
 
     def conflictcount(self,state=None):
+        """
+        Return the number of constraints violated, i.e. the number of misplaced
+        tiles.
+        """
         if type(state) == type(None): state = self.state
         return puzzlecount(state)
 
 def manhattan(state):
+    """
+    Calculate the total Manhattan distances of misplaced tiles in the
+    N-Puzzle game.
+    """
     rows,columns = state.shape
     goal = np.array(list(range(1,state.size)) + [0])
     goal.shape = state.shape
@@ -90,26 +123,39 @@ def manhattan(state):
       mdist += int(np.abs(m1[1]-m2[1]))
     return mdist
 def puzzlecount(state):
-        state = state.flatten()
-        misplaced = [ i for i in range(1,state.size) if state[i] != i - 1 ]
-        return len(misplaced)
+    """
+    The number of misplaced tiles in N-Puzzle.
+    """
+    state = state.flatten()
+    misplaced = [ i for i in range(1,state.size) if state[i] != i - 1 ]
+    return len(misplaced)
 
 def eightqueenconflict(q1,q2):
-        if q1[0] == q2[0]: return False
-        elif q1[1] == q2[1]: return False
-        elif q1[1]-q1[0] == q2[1]-q2[0]: return False
-        else: return True
+    """
+    True if two Queens in positions q1 and q2 would attack each other 
+    on a chess board.
+    """
+    if q1[0] == q2[0]: return False
+    elif q1[1] == q2[1]: return False
+    elif q1[1]-q1[0] == q2[1]-q2[0]: return False
+    else: return True
 
 def eightqueenheuristic(state):
-        qpos = lambda state,i: (i,state[i])
-        boardsize = len(state)
-        l = [ (i,j) 
+    """
+    The number of mutually attacking queen pairs in the Eight Queens problem.
+    """
+    qpos = lambda state,i: (i,state[i])
+    boardsize = len(state)
+    l = [ (i,j) 
               for i in range(boardsize)
               for j in range(i) 
               if eightqueenconflict(qpos(state,i),qpos(state,j)) ]
-        return len(l)
+    return len(l)
 
 def randomsolver(game,heuristic=None):
+    """
+    This solver tries to solve a puzzle game by moving at random.
+    """
     print(game.tostring())
     while not game.isGoal():
         moves = game.nextstates()
@@ -120,6 +166,9 @@ def randomsolver(game,heuristic=None):
     return(game.state)
 
 def astarsolver(game,heuristic=None):
+    """
+    Use A* to solve a puzzle game.
+    """
     pass
 
 if __name__ == "__main__":
