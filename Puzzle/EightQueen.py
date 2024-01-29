@@ -40,7 +40,7 @@ class EightQueensGame(Game):
         Return the number of constraints violated, i.e. the number of pairs of queens
         which attack each other.
         """
-        if state == None: state = self.state
+        if type(state) == type(None): state = self.state
         return eightqueenheuristic(state)
 
 

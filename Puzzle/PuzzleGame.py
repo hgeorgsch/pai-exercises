@@ -2,6 +2,29 @@
 
 import numpy as np
 
+
+class Game:
+    """
+    Some generic features of puzzle games, intended as superclass for
+    the N-Puzzle and the Eight Queens Problem.
+    """
+    def setState(self,state):
+        """
+        Set the solution state.
+        """
+        self.state = state
+    def isGoal(self,state=None):
+        """
+        Return true if the state is the goal (win condition) of the game.
+        """
+        if type(state) == type(None): state = self.state
+        return self.conflictcount(state) == 0
+    def conflictcount(self,state=None):
+        """
+        Return the number of constraints violated.
+        """
+        return 0
+
 class NPuzzle(Game):
     def __init__(self,rows=3,columns=3):
         """
@@ -46,28 +69,6 @@ class NPuzzle(Game):
         """
         if type(state) == type(None): state = self.state
         return puzzlecount(state)
-
-class Game:
-    """
-    Some generic features of puzzle games, intended as superclass for
-    the N-Puzzle and the Eight Queens Problem.
-    """
-    def setState(self,state):
-        """
-        Set the solution state.
-        """
-        self.state = state
-    def isGoal(self,state=None):
-        """
-        Return true if the state is the goal (win condition) of the game.
-        """
-        if type(state) == type(None): state = self.state
-        return self.conflictcount(state) == 0
-    def conflictcount(self,state=None):
-        """
-        Return the number of constraints violated.
-        """
-        return 0
 
 def randomsolver(game,heuristic=None):
     """

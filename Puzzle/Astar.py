@@ -2,6 +2,7 @@
 
 from queue import PriorityQueue
 from EightQueen import *
+from PuzzleGame import *
 
 from dataclasses import dataclass, field
 from typing import Any
