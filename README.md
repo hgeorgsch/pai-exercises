@@ -10,6 +10,8 @@ Feel free to suggest improvements.
 
 ## Games
 
++ [Puzzles](https://github.com/hgeorgsch/pai-exercises/tree/main/Puzzle)
+  including the $N$-Puzzle game and the Eight Queens Problem
 + [Labyrinth](https://github.com/hgeorgsch/pai-exercises/tree/main/Labyrinth)
   allows you to test online DFS.
 + [TicTacToe](https://github.com/hgeorgsch/pai-exercises/tree/main/TicTacToe)

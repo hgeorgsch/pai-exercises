@@ -28,6 +28,9 @@ class EightQueensGame(Game):
     def tostring(self,state=None):
         """
         Return a string representation of the current state.
+        It may be better to use `str(game.state)` instead.
+        This function may give a more compact representation, but it
+        is non-standard.
         """
         if state == None: state = self.state
         return "".join( [ str(x) for x in state ] )
@@ -40,50 +43,6 @@ class EightQueensGame(Game):
         if state == None: state = self.state
         return eightqueenheuristic(state)
 
-class NPuzzle(Game):
-    def __init__(self,rows=3,columns=3):
-        """
-        Initialise a game with a random state on the given rows-x-columns board size.
-        """
-        self.size = size = rows*columns
-        self.state = np.random.permutation(range(size))
-        self.state.shape = (rows,columns)
-    def nextstates(self,state=None):
-        """
-        Return a list of possible next states from the current state.
-        """
-        if type(state) == type(None): state = self.state
-        empty = np.where( state == 0 )
-        print(empty)
-        (x,y) = int(empty[0]), int(empty[1])
-        (m,n) = state.shape
-        moves = []
-        if x > 0: moves.append( (x-1,y) )
-        if x < m-1: moves.append( (x+1,y) )
-        if y > 0: moves.append( (x,y-1) )
-        if y < n-1: moves.append( (x,y+1) )
-        r = []
-        for (x0,y0) in moves:
-            s = state.copy()
-            s[x,y] = s[x0,y0]
-            s[x0,y0] = 0
-            r.append(s)
-        return r
-
-    def tostring(self,state=None):
-        """
-        Return a string representation of the current state.
-        """
-        if state == None: state = self.state
-        return str(state)
-
-    def conflictcount(self,state=None):
-        """
-        Return the number of constraints violated, i.e. the number of misplaced
-        tiles.
-        """
-        if type(state) == type(None): state = self.state
-        return puzzlecount(state)
 
 
 def eightqueenconflict(q1,q2):

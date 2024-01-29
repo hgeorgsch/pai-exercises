@@ -49,6 +49,5 @@ def astarsolver(game,heuristic=None):
     return failure
 
 if __name__ == "__main__":
-    # game = EightQueensGame()
     game = NPuzzle(3,3)
     astarsolver(game,manhattan)
