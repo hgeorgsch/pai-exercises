@@ -3,9 +3,6 @@
 import numpy as np
 import sys
 
-boardsize = 8
-defaultstate = [ 0 for _ in range(boardsize) ]
-randomstate = [ np.random.randint(boardsize) for _ in range(boardsize) ]
 
 class Game:
     def setState(self,state):
@@ -20,8 +17,37 @@ class Game:
         return 0
 
 class EightQueensGame(Game):
-    def __init__(self):
-        self.state = randomstate
+    def __init__(self,boardsize=8):
+        self.boardsize = boardsize
+        self.state = [ np.random.randint(boardsize) for _ in range(boardsize) ]
+    def nextstates(self,state=None):
+        """
+        Return a list of possible next states from the current state.
+        """
+        if state == None: state = self.state
+        r = []
+        for x in range(self.boardsize):
+           for y in range(self.boardsize):
+               if y != state[x]:
+                   s = state.copy()
+                   s[x] = y
+                   r.append( s )
+        return r
+
+
+    def tostring(self,state=None):
+        if state == None: state = self.state
+        return "".join( [ str(x) for x in state ] )
+
+    def conflictcount(self,state=None):
+        if state == None: state = self.state
+        return eightqueenheuristic(state)
+
+class NPuzzle(Game):
+    def __init__(self,rows,columns):
+        size = rows*columns
+        self.state = np.random.permutation(range(size))
+        self.state.shape = (rows,columns)
     def nextstates(self,state=None):
         """
         Return a list of possible next states from the current state.
@@ -53,6 +79,7 @@ def eightqueenconflict(q1,q2):
 
 def eightqueenheuristic(state):
         qpos = lambda state,i: (i,state[i])
+        boardsize = len(state)
         l = [ (i,j) 
               for i in range(boardsize)
               for j in range(i) 
@@ -68,6 +95,8 @@ def randomsolver(game,heuristic=None):
         print(game.tostring())
     return(game.state)
 
+def astarsolver(game,heuristic=None):
+    pass
 
 if __name__ == "__main__":
     game = EightQueensGame()
