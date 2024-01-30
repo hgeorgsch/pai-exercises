@@ -75,6 +75,6 @@ def astarsolver(game,heuristic=None):
     return game
 
 if __name__ == "__main__":
-    game = NPuzzle(3,3)
+    game = NPuzzle(3,4)
     astarsolver(game,manhattan)
     game.printreport()
