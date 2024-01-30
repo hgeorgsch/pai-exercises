@@ -58,3 +58,6 @@ called `manhattan()` in addition to the default `puzzlecount()` aka.
     1. A* : `Astar.py`
     2. Naive Hill Climber : `HillClimber.py`
     3. Random walk : `PuzzleGame.py`
+    4. Min-Conflits : `EightQueen.py`
+        + from constraint satisfaction search [AIMA]
+        + this uses a somewhat different framework which does not apply to the $N$-Puzzle

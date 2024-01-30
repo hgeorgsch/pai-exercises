@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from PuzzleGame import Game, randomsolver
+from PuzzleGame import Game, randomsolver, permute
 
 class EightQueensGame(Game):
     def __init__(self,boardsize=8):
@@ -37,14 +37,40 @@ class EightQueensGame(Game):
         if type(state) == type(None): state = self.state
         return "".join( [ str(x) for x in state ] )
 
-    def conflictcount(self,state=None):
+    def conflictcount(self,state=None,queen=None):
         """
-        Return the number of constraints violated, i.e. the number of pairs of queens
-        which attack each other.
+        Return the number of constraints violated, i.e. the number of misplaced
+        tiles.
         """
         if type(state) == type(None): state = self.state
         return eightqueenheuristic(state)
 
+qpos = lambda state,i: (i,state[i])
+
+def minconflicts(game):
+    """
+    Solver using the Min-Conflicts algorithm [AIMA:182].
+    """
+    while not game.isGoal():
+       state = game.state.copy()
+       vars = permute( list(range(len(state))))
+       queen = vars.pop()
+       while 0 == conflictcount(state, queen=queen ):
+           queen = vars.pop()
+       c = [ ( conflictcount(state,(queen,i)), i ) for i in range(game.boardsize) if i != state[queen] ]
+       _,n = min(c)
+       state[queen] = n
+       game.setState( state )
+    return game
+def conflictcount(state=None,q=None,queen=None):
+     if queen != None: q = qpos(state,queen)
+     else: queen = q[0]
+     boardsize = len(state)
+     l = [ (queen,j) 
+         for j in range(boardsize)
+         if j != queen
+         if eightqueenconflict(q,qpos(state,j)) ]
+     return len(l)
 
 
 def eightqueenconflict(q1,q2):
@@ -61,7 +87,6 @@ def eightqueenheuristic(state):
     """
     The number of mutually attacking queen pairs in the Eight Queens problem.
     """
-    qpos = lambda state,i: (i,state[i])
     boardsize = len(state)
     l = [ (i,j) 
               for i in range(boardsize)
@@ -73,5 +98,6 @@ def eightqueenheuristic(state):
 
 if __name__ == "__main__":
     game = EightQueensGame()
-    randomsolver(game)
+    minconflicts(game)
+    # randomsolver(game)
     game.printreport()

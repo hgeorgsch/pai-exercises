@@ -51,6 +51,9 @@ class Game:
         Return the number of constraints violated.
         """
         return 0
+def permute(s):
+        perm = np.random.permutation( list(range(len(s))) )
+        return [ s[i] for i in perm ]
 
 class NPuzzle(Game):
     def __init__(self,rows=3,columns=3):
