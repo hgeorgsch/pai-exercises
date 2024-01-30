@@ -53,3 +53,7 @@ called `manhattan()` in addition to the default `puzzlecount()` aka.
     1. The code is not optimised in any way; for benchmarking purposes, it would
        have to be reviewed and made faster.
     2. The $N$-Puzzle does not always have a solution.
++ **Sample Solutions**
+    1. A* : `Astar.py`
+    2. Naive Hill Climber : `HillClimber.py`
+    3. Random walk : `PuzzleGame.py`

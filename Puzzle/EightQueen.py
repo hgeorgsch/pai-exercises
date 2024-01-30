@@ -34,7 +34,7 @@ class EightQueensGame(Game):
         This function may give a more compact representation, but it
         is non-standard.
         """
-        if state == None: state = self.state
+        if type(state) == type(None): state = self.state
         return "".join( [ str(x) for x in state ] )
 
     def conflictcount(self,state=None):

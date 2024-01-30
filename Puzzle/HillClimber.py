@@ -11,14 +11,14 @@ def hillclimber(game,heuristic=None):
     print(game.tostring())
     while not game.isGoal():
         moves = game.nextstates()
-        moves = np.random.permutation( moves )
+        perm = np.random.permutation( list(range(len(moves))) )
+        moves = [ moves[i] for i in perm ]
         h = 2**30
         move = None
         for m in moves:
             if heuristic(m) < h: move = m
-        game.setState( m )
-        print(game.tostring())
-        if heuristic: print(heuristic(game.state))
+        print( "HillClimber", game.tostring(move), heuristic(game.state))
+        game.setState( move )
     return(game.state)
 
 if __name__ == "__main__":

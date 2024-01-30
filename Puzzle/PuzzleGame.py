@@ -30,6 +30,7 @@ class Game:
             self.movecount += 1
             print( "setState", state, self.movecount )
         else: 
+            print( self.state, state )
             raise Exception( "Invalid move" )
         return self.isGoal()
 
