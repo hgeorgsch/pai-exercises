@@ -88,7 +88,7 @@ class NPuzzle(Game):
         """
         Return a string representation of the current state.
         """
-        if state == None: state = self.state
+        if type(state) == type(None): state = self.state
         return str(state)
 
     def conflictcount(self,state=None):

@@ -9,6 +9,8 @@ def hillclimber(game,heuristic=None):
     This solver tries to solve a puzzle game by moving at random.
     """
     print(game.tostring())
+    if heuristic == None:
+        heuristic = game.conflictcount
     while not game.isGoal():
         moves = game.nextstates()
         perm = np.random.permutation( list(range(len(moves))) )
@@ -22,6 +24,6 @@ def hillclimber(game,heuristic=None):
     return(game.state)
 
 if __name__ == "__main__":
-    game = EightQueensGame()
-    hillclimber(game,eightqueenheuristic)
+    game = NPuzzle(4,3)
+    hillclimber(game)
     game.printreport()
