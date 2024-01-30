@@ -24,3 +24,4 @@ def hillclimber(game,heuristic=None):
 if __name__ == "__main__":
     game = EightQueensGame()
     hillclimber(game,eightqueenheuristic)
+    game.printreport()

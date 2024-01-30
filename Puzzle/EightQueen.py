@@ -11,10 +11,12 @@ class EightQueensGame(Game):
         """
         self.boardsize = boardsize
         self.state = [ np.random.randint(boardsize) for _ in range(boardsize) ]
+        super().__init__()
     def nextstates(self,state=None):
         """
         Return a list of possible next states from the current state.
         """
+        super().nextstates()
         if state == None: state = self.state
         r = []
         for x in range(self.boardsize):
@@ -72,3 +74,4 @@ def eightqueenheuristic(state):
 if __name__ == "__main__":
     game = EightQueensGame()
     randomsolver(game)
+    game.printreport()

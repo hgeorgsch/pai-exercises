@@ -32,23 +32,49 @@ def astarsolver(game,heuristic=None):
         state = current.item
         print(state)
         print( fScore[str(state)], gScore[str(state)], heuristic(state) )
-        if game.isGoal(state): return game
-        neighbours = game.nextstates(state)
-        tentativeG = gScore[str(state)] + 1
-        for s in neighbours:
+        if game.isGoal(state): 
+            print( "SOLUTION\n", state )
+            break
+        else:
+            neighbours = game.nextstates(state)
+            tentativeG = gScore[str(state)] + 1
+            for s in neighbours:
 
-            if str(s) in gScore: g = gScore[str(s)]
-            else: g = tentativeG + 1
-            if tentativeG < g:
-                # This path to s is better than any previous one. Record it!
-                cameFrom[str(s)] = current
-                gScore[str(s)] = tentativeG
-                fScore[str(s)] = tentativeG + heuristic(s)
-                print( fScore[str(s)], gScore[str(s)], heuristic(s) )
-                queue.put( Item(fScore[str(s)], s) )
+                if str(s) in gScore: g = gScore[str(s)]
+                else: g = tentativeG + 1
+                if tentativeG < g:
+                    # This path to s is better than any previous one. Record it!
+                    cameFrom[str(s)] = state
+                    gScore[str(s)] = tentativeG
+                    fScore[str(s)] = tentativeG + heuristic(s)
+                    print( fScore[str(s)], gScore[str(s)], heuristic(s) )
+                    queue.put( Item(fScore[str(s)], s) )
 
-    return failure
+    if not game.isGoal(state): 
+        print( "Astar failed\n", state )
+        print( "start\n", start )
+    else:
+        final = state
+        path = []
+        while type(state) != type(None):
+            path.append( state )
+            state = cameFrom[str(state)]
+        print( path )
+        s = path.pop()
+        assert start == str(s)
+        while path:
+            s = path.pop()
+            print( s )
+            game.setState( s )
+        print("FINAL\n", final)
+        assert game.isGoal(final), "final is not goal"
+        print(s)
+        assert game.isGoal(s), "s is not goal"
+        assert  str(s) == str(final), "s is not final"
+    
+    return game
 
 if __name__ == "__main__":
     game = NPuzzle(3,3)
     astarsolver(game,manhattan)
+    game.printreport()

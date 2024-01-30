@@ -6,3 +6,4 @@ from Astar import *
 if __name__ == "__main__":
     game = EightQueensGame()
     astarsolver(game,eightqueenheuristic)
+    game.printreport()

@@ -8,11 +8,37 @@ class Game:
     Some generic features of puzzle games, intended as superclass for
     the N-Puzzle and the Eight Queens Problem.
     """
+    def __init__(self):
+        self.movecount = 0
+        self.nodecount = 0
+
+    def printreport(self):
+        if self.isGoal():
+           print( f"Solved" )
+        else:
+           print( f"NOT SOLVED" )
+        print( "Number of moves", self.movecount )
+        print( "Nodes expanded ", self.nodecount )
+
     def setState(self,state):
         """
-        Set the solution state.
+        Set the solution state.  Returns True if the goal is reached
+        and raises an exception if the new state is not a valid move.
         """
-        self.state = state
+        if str(state) in map(str,self.nextstates()):
+            self.state = state
+            self.movecount += 1
+            print( "setState", state, self.movecount )
+        else: 
+            raise Exception( "Invalid move" )
+        return self.isGoal()
+
+    def nextstates(self,state=None):
+        """
+        Return a list of possible next states from the current state.
+        """
+        self.nodecount += 1
+        return []
     def isGoal(self,state=None):
         """
         Return true if the state is the goal (win condition) of the game.
@@ -33,13 +59,15 @@ class NPuzzle(Game):
         self.size = size = rows*columns
         self.state = np.random.permutation(range(size))
         self.state.shape = (rows,columns)
+        super().__init__()
+
     def nextstates(self,state=None):
         """
         Return a list of possible next states from the current state.
         """
+        super().nextstates()
         if type(state) == type(None): state = self.state
         empty = np.where( state == 0 )
-        print(empty)
         (x,y) = int(empty[0]), int(empty[1])
         (m,n) = state.shape
         moves = []
@@ -108,5 +136,6 @@ def puzzlecount(state):
 
 
 if __name__ == "__main__":
-    game = NPuzzle()
+    game = NPuzzle(2,3)
     randomsolver(game,manhattan)
+    game.printreport()
