@@ -52,3 +52,4 @@ called `manhattan()` in addition to the default `puzzlecount()` aka.
 + **Caveats**
     1. The code is not optimised in any way; for benchmarking purposes, it would
        have to be reviewed and made faster.
+    2. The $N$-Puzzle does not always have a solution.
