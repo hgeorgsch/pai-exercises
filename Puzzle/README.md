@@ -36,7 +36,7 @@ the following code will do
 ```
 game = NPuzzle(3,3)
 solver(game)
-print( f"Solved in {game.movecount} moves" )
+game.printreport()
 ```
 Other typical games to test would be
 + `game = NPuzzle(4,3)`
